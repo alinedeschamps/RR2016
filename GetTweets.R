@@ -16,7 +16,7 @@ rr2016_en <- cbind(rr2016_en, Lang = rep("EN", dim(rr2016_en)[1]))
 
 rr2016_tweets <- rbind(rr2016_fr, rr2016_en)
 
-write.csv2(rr2016_tweets, file = "./RR2016_TWITTER/www/rr2016_tweets.csv", row.names = FALSE)
+write.csv2(rr2016_tweets, file = "./RR2016_TWITTER/www/rr2016_tweets.csv", row.names = FALSE, fileEncoding = "UTF-8")
 
 
 

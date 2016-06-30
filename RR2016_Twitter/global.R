@@ -1,6 +1,6 @@
 # Chargement des données et transformation des dates
 
-donnees_twitter <- read.csv("./www/rr2016_tweets.csv", header = TRUE, sep = ";", encoding = "ISO-8859-1")
+donnees_twitter <- read.csv("./www/rr2016_tweets.csv", header = TRUE, sep = ";", encoding = "UTF-8")
 
 donnees_twitter$created <- as.POSIXct(donnees_twitter$created, format = "%Y-%m-%d %H:%M:%S")
 
@@ -15,7 +15,7 @@ ntot_favorited <- sum(donnees_twitter$favoriteCount)
 # Pie chart des hashtags
 
 tweets_only <- donnees_twitter[which(donnees_twitter$isRetweet == FALSE),]
-tweets_only_text <- enc2utf8(as.character(tweets_only$text))
+tweets_only_text <- tweets_only$text
 
 tot_tweets <- dim(tweets_only)[1]
 both_hastags <- length(grep("#rstats", tweets_only_text))
@@ -66,10 +66,8 @@ byHour <- data.frame(heures = hours,
 
 # cleaning function :
 myCleaningFunction <- function(x, name_list) {
-
-  u <- enc2utf8(as.character(x))
   
-  s <- gsub("#rstats", "", u, ignore.case = TRUE)
+  s <- gsub("#rstats", "", x, ignore.case = TRUE)
   s <- gsub("#RR2016", "", s, ignore.case = TRUE)
   s <- gsub("RT @", "", s)
 
@@ -87,7 +85,7 @@ myCleaningFunction <- function(x, name_list) {
 }
 
 names_tw <- unique(donnees_twitter$screenName)
-names_tw <- enc2utf8(as.character(names_tw))
+
 
 
 # FR :

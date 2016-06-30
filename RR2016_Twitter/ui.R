@@ -11,7 +11,7 @@ shinyUI <- dashboardPage(skin = "purple",
       
       sidebarMenu(
         
-        menuItem("Résulats", tabName = "tweets", icon = icon("twitter-square")), 
+        menuItem("Résultats", tabName = "tweets", icon = icon("twitter-square")), 
         menuItem("A propos", tabName = "infos", icon = icon("question-circle")),
         menuItem( tags$a(href = "rr2016_tweets.csv", icon("download"), "Télécharger les données", target="_blank"), tabName = "dl")
 
