@@ -12,5 +12,5 @@ L'appli shinydashboard "RR2016_Twitter" présente divers résultats associés à
 
 Elle a été réalisée avec le logiciel [R](https://www.r-project.org/) et les packages "*shinydashboard*", "*rAmCharts*" et "*wordcloud*".
 
-Le lien web pour y accéder est le suivant [].
+Le lien web pour y accéder est le suivant : [RR2016\_Twitter](https://superstatisticienne.shinyapps.io/RR2016_Twitter/).
 
