@@ -1,6 +1,6 @@
 # Chargement des données et transformation des dates
 
-donnees_twitter <- read.csv("./www/rr2016_tweets.csv", header = TRUE, sep = ";")
+donnees_twitter <- read.csv("./www/rr2016_tweets.csv", header = TRUE, sep = ";", encoding = "ISO-8859-1")
 
 donnees_twitter$created <- as.POSIXct(donnees_twitter$created, format = "%Y-%m-%d %H:%M:%S")
 
@@ -15,9 +15,10 @@ ntot_favorited <- sum(donnees_twitter$favoriteCount)
 # Pie chart des hashtags
 
 tweets_only <- donnees_twitter[which(donnees_twitter$isRetweet == FALSE),]
+tweets_only_text <- enc2utf8(as.character(tweets_only$text))
 
 tot_tweets <- dim(tweets_only)[1]
-both_hastags <- length(grep("#rstats", tweets_only$text))
+both_hastags <- length(grep("#rstats", tweets_only_text))
 one_hastag <- tot_tweets - both_hastags
 
 hashtags <- data.frame(label = c("#RR2016", "#RR2016 #rstats"), 
@@ -59,37 +60,39 @@ byHour <- data.frame(heures = hours,
 
 # Wordclouds par langue
 
-library(wordcloud)
-library(tm)
+ library(wordcloud)
+ library(tm)
 
 
 # cleaning function :
 myCleaningFunction <- function(x, name_list) {
+
+  u <- enc2utf8(as.character(x))
   
-  s <- gsub("#rstats", "", x, ignore.case = TRUE)
+  s <- gsub("#rstats", "", u, ignore.case = TRUE)
   s <- gsub("#RR2016", "", s, ignore.case = TRUE)
   s <- gsub("RT @", "", s)
-  
+
   for(k in 1:length(name_list)) {
-    
+
     s <- gsub(name_list[k], "", s, ignore.case = TRUE)
-    
+
   }
-  
+
   s <- gsub("@", "", s)
   s <- gsub("(https://[^\\s]+)", "", s, perl = TRUE)
-  
+
   return(s)
-  
+
 }
 
 names_tw <- unique(donnees_twitter$screenName)
+names_tw <- enc2utf8(as.character(names_tw))
 
 
 # FR :
 
 FR_text <- donnees_twitter$text[which(donnees_twitter$Lang == "FR")]
-
 
 FR_text_c <- sapply(FR_text, myCleaningFunction, name_list = names_tw)
 
@@ -107,8 +110,6 @@ FR_text_corpus <- tm_map(FR_text_corpus, stripWhitespace)
 # EN :
 
 EN_text <- donnees_twitter$text[which(donnees_twitter$Lang == "EN")]
-
-names_EN <- unique(donnees_twitter$screenName[which(donnees_twitter$Lang == "EN")])
 
 EN_text_c <- sapply(EN_text, myCleaningFunction, name_list = names_tw)
 
