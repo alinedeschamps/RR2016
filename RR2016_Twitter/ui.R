@@ -19,7 +19,7 @@ shinyUI <- dashboardPage(skin = "purple",
       
     ),
       
-    dashboardBody(
+    dashboardBody(tags$head(includeScript("./www/google-analytics.js")),
         
         tabItems(
           
